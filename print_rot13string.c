@@ -1,55 +1,52 @@
 #include "main.h"
 
 /**
- * print_rot13_string - Print a string in ROT13.
- * @args: List of arguments
- * @output_buffer: Buffer array to handle printing
- * @active_flags: Flags that affect the printing
- * @field_width: Width specification
+ * print_rot13string - Print a string in rot13.
+ * @types: List of arguments
+ * @buffer: Buffer array to handle print
+ * @flags:  Calculates active flags
+ * @width: get width
  * @precision: Precision specification
- * @size_specifier: Size specifier
- *
- * Return: Number of characters printed
+ * @size: Size specifier
+ * Return: Numbers of chars printed
  */
-int print_rot13_string(va_list args, char output_buffer[], int active_flags, int field_width, int precision, int size_specifier)
+int print_rot13string(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-    char x;
-    char *str;
-    unsigned int i, j;
-    int count = 0;
-    char input[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    char output[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
+	char x;
+	char *str;
+	unsigned int i, j;
+	int count = 0;
+	char in[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	char out[] = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm";
 
-    str = va_arg(args, char *);
-    UNUSED(output_buffer);
-    UNUSED(active_flags);
-    UNUSED(field_width);
-    UNUSED(precision);
-    UNUSED(size_specifier);
+	str = va_arg(types, char *);
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
+	UNUSED(size);
 
-    if (str == NULL)
-        str = "(AHYY)";
-
-    for (i = 0; str[i]; i++)
-    {
-        for (j = 0; input[j]; j++)
-        {
-            if (input[j] == str[i])
-            {
-                x = output[j];
-                write(1, &x, 1);
-                count++;
-                break;
-            }
-        }
-
-        if (!input[j])
-        {
-            x = str[i];
-            write(1, &x, 1);
-            count++;
-        }
-    }
-
-    return count;
+	if (str == NULL)
+		str = "(AHYY)";
+	for (i = 0; str[i]; i++)
+	{
+		for (j = 0; in[j]; j++)
+		{
+			if (in[j] == str[i])
+			{
+				x = out[j];
+				write(1, &x, 1);
+				count++;
+				break;
+			}
+		}
+		if (!in[j])
+		{
+			x = str[i];
+			write(1, &x, 1);
+			count++;
+		}
+	}
+	return (count);
 }

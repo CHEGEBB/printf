@@ -1,39 +1,40 @@
 #include "main.h"
 
 /**
- * print_non_printable_chars - Prints ASCII codes in hexadecimal of non-printable characters
- * @args: List of arguments
- * @output_buffer: Buffer array to handle printing
- * @active_flags: Flags that affect the printing
- * @field_width: Width specification
+ * print_non_printable - Prints ascii codes in hexa of non printable chars
+ * @types: List of arguments
+ * @buffer: Buffer array to handle print
+ * @flags:  Calculates active flags
+ * @width: get width
  * @precision: Precision specification
- * @size_specifier: Size specifier
- * Return: Number of characters printed
+ * @size: Size specifier
+ * Return: Number of chars printed
  */
-int print_non_printable_chars(va_list args, char output_buffer[], int active_flags, int field_width, int precision, int size_specifier)
+int print_non_printable(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-    int i = 0, offset = 0;
-    char *str = va_arg(args, char *);
+	int i = 0, offset = 0;
+	char *str = va_arg(types, char *);
 
-    UNUSED(active_flags);
-    UNUSED(field_width);
-    UNUSED(precision);
-    UNUSED(size_specifier);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
+	UNUSED(size);
 
-    if (str == NULL)
-        return (write(1, "(null)", 6));
+	if (str == NULL)
+		return (write(1, "(null)", 6));
 
-    while (str[i] != '\0')
-    {
-        if (is_printable(str[i]))
-            output_buffer[i + offset] = str[i];
-        else
-            offset += append_hexadecimal_code(str[i], output_buffer, i + offset);
+	while (str[i] != '\0')
+	{
+		if (is_printable(str[i]))
+			buffer[i + offset] = str[i];
+		else
+			offset += append_hexa_code(str[i], buffer, i + offset);
 
-        i++;
-    }
+		i++;
+	}
 
-    output_buffer[i + offset] = '\0';
+	buffer[i + offset] = '\0';
 
-    return (write(1, output_buffer, i + offset));
+	return (write(1, buffer, i + offset));
 }

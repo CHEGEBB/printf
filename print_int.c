@@ -1,43 +1,44 @@
 #include "main.h"
 
 /**
- * print_integer - Print an integer
- * @args: List of arguments
- * @output_buffer: Buffer array to handle printing
- * @active_flags: Flags that affect the printing
- * @field_width: Width specification
+ * print_int - Print int
+ * @types: List of arguments
+ * @buffer: Buffer array to handle print
+ * @flags:  Calculates active flags
+ * @width: get width
  * @precision: Precision specification
- * @size_specifier: Size specifier
- * Return: Number of characters printed
+ * @size: Size specifier
+ * Return: Number of chars printed
  */
-int print_integer(va_list args, char output_buffer[], int active_flags, int field_width, int precision, int size_specifier)
+int print_int(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-    int i = BUFF_SIZE - 2;
-    int is_negative = 0;
-    long int original_number = va_arg(args, long int);
-    unsigned long int num;
+	int i = BUFF_SIZE - 2;
+	int is_negative = 0;
+	long int n = va_arg(types, long int);
+	unsigned long int num;
 
-    original_number = convert_size_number(original_number, size_specifier);
+	n = convert_size_number(n, size);
 
-    if (original_number == 0)
-        output_buffer[i--] = '0';
+	if (n == 0)
+		buffer[i--] = '0';
 
-    output_buffer[BUFF_SIZE - 1] = '\0';
-    num = (unsigned long int)original_number;
+	buffer[BUFF_SIZE - 1] = '\0';
+	num = (unsigned long int)n;
 
-    if (original_number < 0)
-    {
-        num = (unsigned long int)((-1) * original_number);
-        is_negative = 1;
-    }
+	if (n < 0)
+	{
+		num = (unsigned long int)((-1) * n);
+		is_negative = 1;
+	}
 
-    while (num > 0)
-    {
-        output_buffer[i--] = (num % 10) + '0';
-        num /= 10;
-    }
+	while (num > 0)
+	{
+		buffer[i--] = (num % 10) + '0';
+		num /= 10;
+	}
 
-    i++;
+	i++;
 
-    return (write_number(is_negative, i, output_buffer, active_flags, field_width, precision, size_specifier));
+	return (write_number(is_negative, i, buffer, flags, width, precision, size));
 }

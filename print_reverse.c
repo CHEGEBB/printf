@@ -1,43 +1,44 @@
 #include "main.h"
 
 /**
- * print_reversed_string - Prints a reversed string.
- * @args: List of arguments
- * @output_buffer: Buffer array to handle printing
- * @active_flags: Flags that affect the printing
- * @field_width: Width specification
+ * print_reverse - Prints reverse string.
+ * @types: List of arguments
+ * @buffer: Buffer array to handle print
+ * @flags:  Calculates active flags
+ * @width: get width
  * @precision: Precision specification
- * @size_specifier: Size specifier
- *
- * Return: Number of characters printed
+ * @size: Size specifier
+ * Return: Numbers of chars printed
  */
-int print_reversed_string(va_list args, char output_buffer[], int active_flags, int field_width, int precision, int size_specifier)
+
+int print_reverse(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-    char *str;
-    int i, count = 0;
+	char *str;
+	int i, count = 0;
 
-    UNUSED(output_buffer);
-    UNUSED(active_flags);
-    UNUSED(field_width);
-    UNUSED(size_specifier);
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(size);
 
-    str = va_arg(args, char *);
+	str = va_arg(types, char *);
 
-    if (str == NULL)
-    {
-        UNUSED(precision);
-        str = ")Null(";
-    }
+	if (str == NULL)
+	{
+		UNUSED(precision);
 
-    for (i = 0; str[i]; i++)
-        ;
+		str = ")Null(";
+	}
+	for (i = 0; str[i]; i++)
+		;
 
-    for (i = i - 1; i >= 0; i--)
-    {
-        char character = str[i];
-        write(1, &character, 1);
-        count++;
-    }
+	for (i = i - 1; i >= 0; i--)
+	{
+		char z = str[i];
 
-    return count;
+		write(1, &z, 1);
+		count++;
+	}
+	return (count);
 }

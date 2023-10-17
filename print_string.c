@@ -1,56 +1,56 @@
 #include "main.h"
 
 /**
- * print_output_string - Prints a string to the output
- * @args: List of arguments
- * @output_buffer: Buffer array to handle printing
- * @active_flags: Flags that affect the printing
- * @field_width: Width specification
+ * print_string - Prints a string
+ * @types: List of arguments
+ * @buffer: Buffer array to handle print
+ * @flags:  Calculates active flags
+ * @width: get width.
  * @precision: Precision specification
- * @size_specifier: Size specifier
- *
- * Return: Number of characters printed
+ * @size: Size specifier
+ * Return: Number of chars printed
  */
-int print_output_string(va_list args, char output_buffer[], int active_flags, int field_width, int precision, int size_specifier)
+int print_string(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-    int length = 0, i;
-    char *str = va_arg(args, char *);
+	int length = 0, i;
+	char *str = va_arg(types, char *);
 
-    UNUSED(output_buffer);
-    UNUSED(active_flags);
-    UNUSED(field_width);
-    UNUSED(size_specifier);
+	UNUSED(buffer);
+	UNUSED(flags);
+	UNUSED(width);
+	UNUSED(precision);
+	UNUSED(size);
+	if (str == NULL)
+	{
+		str = "(null)";
+		if (precision >= 6)
+			str = "      ";
+	}
 
-    if (str == NULL)
-    {
-        str = "(null)";
-        if (precision >= 6)
-            str = "      ";
-    }
+	while (str[length] != '\0')
+		length++;
 
-    while (str[length] != '\0')
-        length++;
+	if (precision >= 0 && precision < length)
+		length = precision;
 
-    if (precision >= 0 && precision < length)
-        length = precision;
+	if (width > length)
+	{
+		if (flags & F_MINUS)
+		{
+			write(1, &str[0], length);
+			for (i = width - length; i > 0; i--)
+				write(1, " ", 1);
+			return (width);
+		}
+		else
+		{
+			for (i = width - length; i > 0; i--)
+				write(1, " ", 1);
+			write(1, &str[0], length);
+			return (width);
+		}
+	}
 
-    if (field_width > length)
-    {
-        if (active_flags & F_MINUS)
-        {
-            write(1, &str[0], length);
-            for (i = field_width - length; i > 0; i--)
-                write(1, " ", 1);
-            return field_width;
-        }
-        else
-        {
-            for (i = field_width - length; i > 0; i--)
-                write(1, " ", 1);
-            write(1, &str[0], length);
-            return field_width;
-        }
-    }
-
-    return write(1, str, length);
+	return (write(1, str, length));
 }

@@ -1,50 +1,46 @@
 #include "main.h"
 
 /**
- * print_binary - Prints a binary representation of an unsigned number
- * @args: List of arguments
- * @buffer: Buffer array to handle printing
- * @flags: Flags for formatting
- * @width: Width specification
+ * print_binary - Prints an unsigned number
+ * @types: List of arguments
+ * @buffer: Buffer array to handle print
+ * @flags:  Calculates active flags
+ * @width: get width
  * @precision: Precision specification
- * @size_specifier: Size specifier
- *
- * Return: Number of characters printed
+ * @size: Size specifier
+ * Return: Numbers of char printed
  */
-int print_binary(va_list args, char buffer[], int flags, int width, int precision, int size_specifier)
+int print_binary(va_list types, char buffer[],
+	int flags, int width, int precision, int size)
 {
-	unsigned int number, divisor, i, sum;
-	unsigned int binary_digits[32];
-	int char_count;
+	unsigned int n, m, i, sum;
+	unsigned int a[32];
+	int count;
 
 	UNUSED(buffer);
 	UNUSED(flags);
 	UNUSED(width);
 	UNUSED(precision);
-	UNUSED(size_specifier);
+	UNUSED(size);
 
-	number = va_arg(args, unsigned int);
-	divisor = 2147483648; /* 2^31 */
-
-	binary_digits[0] = number / divisor;
-
+	n = va_arg(types, unsigned int);
+	m = 2147483648; /* (2 ^ 31) */
+	a[0] = n / m;
 	for (i = 1; i < 32; i++)
 	{
-		divisor /= 2;
-		binary_digits[i] = (number / divisor) % 2;
+		m /= 2;
+		a[i] = (n / m) % 2;
 	}
-
-	for (i = 0, sum = 0, char_count = 0; i < 32; i++)
+	for (i = 0, sum = 0, count = 0; i < 32; i++)
 	{
-		sum += binary_digits[i];
-
+		sum += a[i];
 		if (sum || i == 31)
 		{
-			char binary_char = '0' + binary_digits[i];
-			write(1, &binary_char, 1);
-			char_count++;
+			char z = '0' + a[i];
+
+			write(1, &z, 1);
+			count++;
 		}
 	}
-
-	return char_count;
+	return (count);
 }
