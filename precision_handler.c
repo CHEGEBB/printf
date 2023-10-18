@@ -1,42 +1,42 @@
 #include "main.h"
 
 /**
- * get_precision - Calculates the precision for printing
- * @format: Formatted string in which to print the arguments
- * @i: List of arguments to be printed.
- * @list: list of arguments.
+ * custom_get_precision - Calculate precision for printing
  *
- * Return: Precision.
+ * @format: The format string to print arguments
+ * @position: Pointer to track the current position in the format string
+ * @args: List of arguments
+ *
+ * Return: Precision value
  */
-int get_precision(const char *format, int *i, va_list list)
+int custom_get_precision(const char *format, int *position, va_list args)
 {
-	int curr_i = *i + 1;
-	int precision = -1;
+    int currentPos = *position + 1;
+    int precisionValue = -1;
 
-	if (format[curr_i] != '.')
-		return (precision);
+    if (format[currentPos] != '.')
+        return (precisionValue);
 
-	precision = 0;
+    precisionValue = 0;
 
-	for (curr_i += 1; format[curr_i] != '\0'; curr_i++)
-	{
-		if (is_digit(format[curr_i]))
-		{
-			precision *= 10;
-			precision += format[curr_i] - '0';
-		}
-		else if (format[curr_i] == '*')
-		{
-			curr_i++;
-			precision = va_arg(list, int);
-			break;
-		}
-		else
-			break;
-	}
+    for (currentPos += 1; format[currentPos] != '\0'; currentPos++)
+    {
+        if (is_digit(format[currentPos]))
+        {
+            precisionValue *= 10;
+            precisionValue += format[currentPos] - '0';
+        }
+        else if (format[currentPos] == '*')
+        {
+            currentPos++;
+            precisionValue = va_arg(args, int);
+            break;
+        }
+        else
+            break;
+    }
 
-	*i = curr_i - 1;
+    *position = currentPos - 1;
 
-	return (precision);
+    return (precisionValue);
 }
-/*walter taya*/
